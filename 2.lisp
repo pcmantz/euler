@@ -2,11 +2,16 @@
 ;; written by Paul Mantz
 ;; solution to Euler Project problem 2
 
-(setq fib-list-to-four-mil
-      (defun iter (last stlast list)
-        (cond ((> 4000000 (+ last stlast)) list )
-              (t (cons (+ last stlast) list))))
-      (iter 0 1 '()))
-
 (defun is-even? (n)
-  (if (= (% n 2) 0)))
+  (= (mod n 2) 0))
+
+(defun get-fib-even-sum-iter (last this sum limit)
+  (if (< this limit)
+      (get-fib-even-sum-iter this
+                             (+ this last)
+                             (if (is-even? this) (+ this sum) sum)
+                             limit)
+      sum))
+
+(setq sum-even-fibs-to-four-mil
+      (get-fib-even-sum-iter 1 1 0 4000000))
